@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chúc Mừng Sinh Nhật</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #fce4ec, #e1bee7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .floating-icon {
+      position: absolute;
+      pointer-events: none;
+      animation: float 15s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(10deg);
+      }
+    }
+
+    .heart {
+      color: #ec407a;
+    }
+
+    .gift {
+      color: #9c27b0;
+    }
+
+    .cake {
+      color: #ffc107;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 10;
+      max-width: 800px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #ec407a, #9c27b0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #7b1fa2;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .message {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #ec407a, #9c27b0);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #d81b60, #8e24aa);
+    }
+
+    .btn-outline {
+      background-color: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(5px);
+      border: 1px solid #f8bbd0;
+      color: #c2185b;
+    }
+
+    .btn-outline:hover {
+      background-color: #fce4ec;
+    }
+
+    .image-container {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .memory-image {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .image-caption {
+      margin-top: 1rem;
+      color: #7b1fa2;
+      font-weight: 500;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 4rem;
+      }
+      h2 {
+        font-size: 2.5rem;
+      }
+      .message {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+  
+  <audio id="birthdayAudio" loop>
+    <source src="./assets/happy-birthday-254480.mp3" type="audio/mp3">
+  </audio>
+  
+  <div class="container">
+    <h1>Chúc Mừng Sinh Nhật!</h1>
+    <h1>Trangg</h1>
+    
+    <div class="card">
+      <p class="message">
+        Chúc mừng sinh nhật chị Trang! Mong rằng ngày hôm nay sẽ tràn ngập niềm vui, hạnh phúc và những điều tuyệt vời nhất. Chúc chị tuổi mới luôn xinh đẹp, học giỏi, tràn đầy sức khỏe, thành công và thật hạnh phúc!
+      </p>
+    </div>
+    
+    <div class="buttons">
+      <button class="btn btn-primary" id="confetti-btn">
+        <i class="fas fa-party-horn"></i> Thêm Confetti!
+      </button>
+      
+      <button class="btn btn-outline" id="music-btn">
+        <i class="fas fa-music"></i> <span id="music-text">Bật Nhạc</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="image-container">
+    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/z6411747119929_7c9c5694f000e973f978dd30b45537c3.jpg-nuNC74bEk0FnHttylnAUpVrkIRyyXg.jpeg" alt="Shared memories" class="memory-image">
+    <!-- <div class="image-caption">Những kỷ niệm đẹp của chúng ta</div> -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+  <script>
+    // Create floating icons
+    const iconTypes = ['heart', 'gift', 'cake'];
+    const iconClasses = {
+      'heart': 'fa-heart heart',
+      'gift': 'fa-gift gift',
+      'cake': 'fa-cake-candles cake'
+    };
+    
+    for (let i = 0; i < 20; i++) {
+      const icon = document.createElement('i');
+      const iconType = iconTypes[i % 3];
+      icon.className = `fas ${iconClasses[iconType]} floating-icon`;
+      
+      // Random position
+      icon.style.left = `${Math.random() * 100}%`;
+      icon.style.top = `${Math.random() * 100}%`;
+      
+      // Random animation delay and duration
+      icon.style.animationDelay = `${Math.random() * 10}s`;
+      icon.style.animationDuration = `${15 + Math.random() * 10}s`;
+      
+      // Random size
+      icon.style.fontSize = `${1 + Math.random() * 1.5}rem`;
+      
+      document.body.appendChild(icon);
+    }
+    
+    // Confetti
+    let confettiSettings = { target: 'confetti-canvas', max: 150, size: 1.5, animate: true, props: ['circle', 'square', 'triangle', 'line'], colors: [[255,105,180], [255,192,203], [219,112,147], [186,85,211], [153,50,204]], clock: 25 };
+    let confetti = new ConfettiGenerator(confettiSettings);
+    
+    // Start confetti after a short delay
+    setTimeout(() => {
+      confetti.render();
+      
+      // Stop after a few seconds
+      setTimeout(() => {
+        confetti.clear();
+      }, 5000);
+    }, 500);
+    
+    // Confetti button
+    document.getElementById('confetti-btn').addEventListener('click', () => {
+      confetti.clear();
+      confetti = new ConfettiGenerator(confettiSettings);
+      confetti.render();
+      
+      // Stop after a few seconds
+      setTimeout(() => {
+        confetti.clear();
+      }, 5000);
+    });
+    
+    // Music button
+    const musicBtn = document.getElementById('music-btn');
+    const musicText = document.getElementById('music-text');
+    const audio = document.getElementById('birthdayAudio');
+    let isPlaying = false;
+    
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        musicText.textContent = 'Bật Nhạc';
+      } else {
+        audio.play().catch(e => console.error('Audio play failed:', e));
+        musicText.textContent = 'Tắt Nhạc';
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+</body>
+</html>
